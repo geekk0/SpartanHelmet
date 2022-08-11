@@ -1,0 +1,25 @@
+a {
+  color:black;
+}
+
+a:hover{
+  color:red;
+}
+
+figure {
+  font-size:15pt;
+}
+
+.showcase {
+  margin-top: 5%;
+}
+
+.category_image{
+  width:90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figure {
+  text-align: center;
+}
