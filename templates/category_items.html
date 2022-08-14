@@ -11,22 +11,26 @@
 
 {% block content %}
 
-    <br>
-    <h3 style="text-align: center">{{ category_name }}</h3>
+    {% if access_allowed or not category_object.hidden %}
+        <br>
+        <h3 style="text-align: center">{{ category_name }}</h3>
 
-    <div class="col-10 offset-1">
-        {% for item in category_items %}
+        <div class="col-10 offset-1">
+            {% for item in category_items %}
 
-            <div class="items_layout col-4">
-                <a href="{% url "Item page" category_name item.name %}">
-                            <figure>
-                                <img class="item_image" src="{{ item.main_image.url }}" alt="{{ item.name }}">
-                                <figcaption>{{ item.name }}</figcaption>
-                            </figure>
-                        </a>
-            </div>
+                <div class="items_layout col-4">
+                    <a href="{% url "Item page" category_name item.name %}">
+                        <figure>
+                            <img class="item_image" src="{{ item.main_image.url }}" alt="{{ item.name }}">
+                            <figcaption>{{ item.name }}</figcaption>
+                        </figure>
+                    </a>
+                </div>
 
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
 
 {% endblock %}

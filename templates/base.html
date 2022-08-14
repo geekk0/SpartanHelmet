@@ -48,7 +48,8 @@
                         <li style="color:red">{{ user.username }}</li>
                         <li class="col-md-6"><a href="{% url "Logout" %}">Sign out</a></li>
                     {% else %}
-                            <li class="col-md-6"><a href="{% url "Login" %}?next={{request.path}}">Sign in</a></li>
+                        <li class="col-md-6"><a href="{% url "Login" %}?next={{request.path}}">Sign in</a></li>
+                        <li class="col-md-6"><a href="{% url "Register" %}?next={{request.path}}">Sign up</a></li>
                     {% endif %}
 
                 </ul>

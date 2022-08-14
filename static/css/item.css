@@ -8,6 +8,10 @@
   opacity: 0.8;
 }
 
+.item-info{
+  margin-left: 3%;
+}
+
 .item_images:hover {
   opacity: 0.8;
 }

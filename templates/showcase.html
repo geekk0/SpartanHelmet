@@ -17,15 +17,19 @@
 
             {% for category in categories_list %}
 
-                <div class="category_layout col-4">
-                    <a href="{% url "Category items" category.name %}">
-                        <figure>
-                            <img class="category_image" src="{{ category.image.url }}" alt="{{ category.name }}">
-                            <figcaption>{{ category.name }}</figcaption>
-                        </figure>
-                    </a>
+                {% if access_allowed or not category.hidden  %}
 
-                </div>
+                    <div class="category_layout col-4">
+                        <a href="{% url "Category items" category.name %}">
+                            <figure>
+                                <img class="category_image" src="{{ category.image.url }}" alt="{{ category.name }}">
+                                <figcaption>{{ category.name }}</figcaption>
+                            </figure>
+                        </a>
+
+                    </div>
+
+                {% endif %}
 
             {% endfor %}
 

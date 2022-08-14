@@ -3,7 +3,8 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_filters %}
 
-{% block breadcrumb %}
+{% block title %}
+    <title>Authorization</title>
 {% endblock %}
 
 {%  block content %}
@@ -20,7 +21,7 @@
                 {% csrf_token %}
                 {{ form|crispy }}
                 <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-                <input style="margin-top: 4%" type="submit" class="btn btn-success" value="Login">
+                <input style="margin-top: 4%; background-color: black" type="submit" class="btn btn-success" value="Login">
             </form>
 
         </div>
