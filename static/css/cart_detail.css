@@ -1,0 +1,23 @@
+.title{
+  text-align: center;
+  margin-top:1%;
+}
+
+.cart {
+  margin-top:3%;
+  text-align: center;
+}
+
+.total {
+  background: #626262;
+  color: white;
+  font-size: 14pt;
+}
+
+td img {
+  width:100%;
+}
+
+a:hover {
+  color: red;
+}

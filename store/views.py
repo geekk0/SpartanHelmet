@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Categories, Items, ItemImages
 from django.views.generic import View
 from .forms import LoginForm, RegistrationForm
+from cart.forms import CartAddProductForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView
@@ -99,8 +100,6 @@ def showcase(request):
 
     context = {"available_categories": available_categories}
 
-    print(available_categories)
-
     return render(request, "showcase.html", context)
 
 
@@ -135,8 +134,11 @@ def item_page(request, category_name, item_name):
 
         images = ItemImages.objects.filter(of_item_id=item.id)
 
-        context = {"item": item, "images": images}
+        request.session["foo"] = "bar"
 
-        print(request.session.items())
+        cart_product_form = CartAddProductForm()
+
+        context = {"item": item, "images": images, "cart_product_form": cart_product_form}
+
 
         return render(request, "item_page.html", context)
