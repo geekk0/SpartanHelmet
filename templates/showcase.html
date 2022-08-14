@@ -15,21 +15,18 @@
 
         <div class="row">
 
-            {% for category in categories_list %}
+            {% for category in available_categories %}
 
-                {% if access_allowed or not category.hidden  %}
+                <div class="category_layout col-4">
+                    <a href="{% url "Category items" category.name %}">
+                        <figure>
+                            <img class="category_image" src="{{ category.image.url }}" alt="{{ category.name }}">
+                            <figcaption>{{ category.name }}</figcaption>
+                        </figure>
+                    </a>
 
-                    <div class="category_layout col-4">
-                        <a href="{% url "Category items" category.name %}">
-                            <figure>
-                                <img class="category_image" src="{{ category.image.url }}" alt="{{ category.name }}">
-                                <figcaption>{{ category.name }}</figcaption>
-                            </figure>
-                        </a>
+                </div>
 
-                    </div>
-
-                {% endif %}
 
             {% endfor %}
 

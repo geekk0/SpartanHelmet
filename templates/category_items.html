@@ -11,8 +11,7 @@
 
 {% block content %}
 
-    {% if access_allowed or not category_object.hidden %}
-        <br>
+    <br>
         <h3 style="text-align: center">{{ category_name }}</h3>
 
         <div class="col-10 offset-1">
@@ -29,7 +28,6 @@
 
             {% endfor %}
         </div>
-    {% endif %}
 
 
 

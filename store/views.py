@@ -3,7 +3,7 @@ from .models import Categories, Items, ItemImages
 from django.views.generic import View
 from .forms import LoginForm, RegistrationForm
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -82,46 +82,61 @@ def who_we_are(request):
     return render(request, "who_we_are.html", context)
 
 
-def access_check(request):
+def get_available_categories(request):
+
     if request.user.groups.filter(name="Весь контент"):
-        return True
+
+        return Categories.objects.all().order_by("name")
+
     else:
-        return False
+
+        return Categories.objects.filter(hidden=False).order_by("name")
 
 
 def showcase(request):
 
-    categories_list = Categories.objects.all().order_by("name")
+    available_categories = get_available_categories(request)
 
-    access_allowed = access_check(request)
+    context = {"available_categories": available_categories}
 
-    context = {"categories_list": categories_list, "access_allowed": access_allowed}
+    print(available_categories)
 
     return render(request, "showcase.html", context)
 
 
 def category_items(request, category_name):
 
-    category_items = Items.objects.filter(category__name=category_name)
+    available_categories = get_available_categories(request)
 
     category_object = Categories.objects.get(name=category_name)
 
-    access_allowed = access_check(request)
+    if category_object not in available_categories:
 
-    context = {"category_items": category_items, "category_object": category_object,
-               "category_name": category_name, "access_allowed": access_allowed}
+        raise Http404
 
-    return render(request, "category_items.html", context)
+    else:
+
+        category_items = Items.objects.filter(category__name=category_name)
+
+        context = {"category_items": category_items, "category_object": category_object, "category_name": category_name}
+
+        return render(request, "category_items.html", context)
 
 
 def item_page(request, category_name, item_name):
 
-    item = Items.objects.get(name=item_name)
+    if not Categories.objects.get(name=category_name) in get_available_categories(request):
 
-    images = ItemImages.objects.filter(of_item_id=item.id)
+        raise Http404
 
-    context = {"item": item, "images": images}
+    else:
 
-    print(request.session.items())
+        item = Items.objects.get(name=item_name)
 
-    return render(request, "item_page.html", context)
+        images = ItemImages.objects.filter(of_item_id=item.id)
+
+        context = {"item": item, "images": images}
+
+        print(request.session.items())
+
+        return render(request, "item_page.html", context)
