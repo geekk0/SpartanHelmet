@@ -7,6 +7,10 @@
 
 {% endblock %}
 
+{% block title %}
+    <title>Cart</title>
+{% endblock %}
+
 {% block content %}
     <h2 class="title">Your shopping cart</h2>
     <div class="cart col-md-8 offset-2">
@@ -41,7 +45,7 @@
                             {{ product.name }}</a></td>
                         <td class="col-md-2 offset-1"><a style="font-size: 16pt" href="{% url "minus_one" product.id item.quantity %}">-  </a>{{ item.quantity }}
                             <a style="font-size: 16pt" href="{% url "plus_one" product.id item.quantity %}">  +</a></td>
-                        <td><a href="{% url "cart_remove" product.id%}"><img style="width:15%" src=" {% static "images/remove.png" %}"></a></td>
+                        <td><a href="{% url "cart_remove" product.id%}"><img style="width:15%" src=" {% static "images/remove.png" %}" alt=""></a></td>
                         <td class="col-md-2 offset-1 num">${{ item.price }}</td>
                         <td class="col-md-2 offset-1 num">${{ item.total_price }}</td>
                     </tr>
@@ -62,7 +66,7 @@
         </table>
         <p class="text-right" style="margin-top:5%">
             <a href="{% url "Showcase" %}" class="btn btn-outline-dark">Continue shopping</a>
-            <a href="#" class="btn btn-dark">Checkout</a>
+            <a href="{% url "order_create" %}" class="btn btn-dark">Checkout</a>
         </p>
     </div>
 {% endblock %}

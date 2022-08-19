@@ -42,17 +42,33 @@
 
                     </ul>
                 </div>
-                <ul class="row" style="margin-top: 2.5%">
-                    <li class="col-md-6">Orders</li>
-                    {% if user.is_authenticated %}
-                        <li style="color:red">{{ user.username }}</li>
-                        <li class="col-md-6"><a href="{% url "Logout" %}">Sign out</a></li>
-                    {% else %}
-                        <li class="col-md-6"><a href="{% url "Login" %}?next={{request.path}}">Sign in</a></li>
-                        <li class="col-md-6"><a href="{% url "Register" %}?next={{request.path}}">Sign up</a></li>
-                    {% endif %}
 
-                </ul>
+                <div class="row">
+                    <div class="cart_header col-md-2">
+                        {% with total_items=cart|length %}
+                            {% if cart|length > 0 %}
+                                {% if cart|length > 9 %}
+                                    <a class="cart_number_two" href="{% url "cart_detail" %}">{{ total_items }}</a>
+                                {% else %}
+                                    <a class="cart_number" href="{% url "cart_detail" %}">{{ total_items }}</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url "cart_detail" %}"></a>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <ul class="col-md-8 row" style="margin-top: 0">
+                        {% if user.is_authenticated %}
+                            <li style="color:red">{{ user.username }}</li>
+                            <li class="col-md-6"><a href="{% url "Logout" %}">Sign out</a></li>
+                        {% else %}
+                            <li class="col-md-6"><a href="{% url "Login" %}?next={{request.path}}">Sign in</a></li>
+                            <li class="col-md-6"><a href="{% url "Register" %}?next={{request.path}}">Sign up</a></li>
+                        {% endif %}
+
+                    </ul>
+                </div>
 
             </div>
         </div>

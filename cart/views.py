@@ -29,7 +29,6 @@ def cart_remove(request, product_id):
 def cart_detail(request):
     cart = Cart(request)
     session_info = request.session.items()
-    print(session_info)
     return render(request, 'cart/detail.html', {'cart': cart})
 
 

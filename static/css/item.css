@@ -82,3 +82,17 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+select {
+  height: 28pt;
+  vertical-align: top;
+  background: white;
+  border: solid 1px black;
+  border-radius: 10%;
+}
+
+.btn-outline-danger:hover {
+  color: #fff;
+  background-color: #e31f0b;
+  border-color: #e31f0b;
+}

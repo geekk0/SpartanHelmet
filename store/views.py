@@ -134,7 +134,7 @@ def item_page(request, category_name, item_name):
 
         images = ItemImages.objects.filter(of_item_id=item.id)
 
-        request.session["foo"] = "bar"
+        # request.session["foo"] = "bar"
 
         cart_product_form = CartAddProductForm()
 
