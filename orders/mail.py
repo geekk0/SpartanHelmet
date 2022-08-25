@@ -4,6 +4,7 @@ from email.mime.text import MIMEText
 from .models import Order, OrderItem
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse, Http404
+from .bot import send_telegram_order_notification
 
 
 def send_customer_confirmation_email(order):
@@ -18,20 +19,15 @@ def send_customer_confirmation_email(order):
 
     server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
     # server.ehlo()
-    print("server accepted")
-    # server.ehlo()
     server.starttls()
-    print("server tls started")
     server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-    print("logged in")
     server.sendmail(msg['From'], send_to, msg.as_string())
-    print("msg sent")
     server.quit()
 
     return HttpResponseRedirect('/')
 
 
-def send_notify_order_email(order):
+def send_notify_order_email(order, request):
 
     msg = MIMEMultipart()
     msg['Subject'] = 'Новый заказ от ' + order.first_name + " №" + str(order.id)
@@ -54,19 +50,16 @@ def send_notify_order_email(order):
 
     order_items_block = format_order_items(order)
 
+    send_telegram_order_notification("Новый заказ №" + str(order.id) + " от " + request.user.username + "!\n" +
+                                     customer_info_block + "\n" + order_items_block)
+
     text = MIMEText(customer_info_block + "\n" + order_items_block)
     msg.attach(text)
 
     server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
-    # server.ehlo()
-    print("server accepted")
-    # server.ehlo()
     server.starttls()
-    print("server tls started")
     server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-    print("logged in")
     server.sendmail(msg['From'], send_to, msg.as_string())
-    print("msg sent")
     server.quit()
 
     return HttpResponseRedirect('/')

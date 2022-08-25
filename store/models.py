@@ -42,29 +42,4 @@ class ItemImages(models.Model):
         verbose_name_plural = "Изображения товаров"
 
 
-"""class Cart(models.Model):
-    total_price = models.IntegerField(verbose_name="Общая стоимость корзины")
-    total_quantity = models.IntegerField(verbose_name="Общее количество товаров в корзине")
-    product = models.ManyToManyField(CartItem)
-
-
-class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1, blank=True, null=True)
-
-
-class Order(models.Model):
-    number = models.CharField(max_length=128, verbose_name="Номер заказа", null=True, blank=True)
-    ORDER_STATUS_CHOICES = (("in processing", "in processing"), ("confirmed", "confirmed"), ("shipping", "shipping"),
-                            ("delivered", "delivered"), ("cancelled", "cancelled"))
-    status = models.CharField(choices=ORDER_STATUS_CHOICES, verbose_name="Статус доставки", null=True, blank=True)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Заказчик")
-    product = models.ManyToManyField('OrderItem', related_name='ordered_products')
-
-
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True,)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1, blank=True, null=True)"""
 
