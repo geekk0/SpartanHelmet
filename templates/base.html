@@ -60,7 +60,7 @@
 
                     <ul class="col-md-8 row" style="margin-top: 0">
                         {% if user.is_authenticated %}
-                            <li style="color:red">{{ user.username }}</li>
+                            <li style="color:red"><a href="{% url "account_details" %}">{{ user.username }}</a></li>
                             <li class="col-md-6"><a href="{% url "Logout" %}">Sign out</a></li>
                         {% else %}
                             <li class="col-md-6"><a href="{% url "Login" %}?next={{request.path}}">Sign in</a></li>

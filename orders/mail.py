@@ -50,6 +50,9 @@ def send_notify_order_email(order, request):
 
     order_items_block = format_order_items(order)
 
+    if not request.user.username:
+        request.user.username = "неизвестный"
+
     send_telegram_order_notification("Новый заказ №" + str(order.id) + " от " + request.user.username + "!\n" +
                                      customer_info_block + "\n" + order_items_block)
 

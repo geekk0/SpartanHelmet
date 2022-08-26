@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order
+from .models import Order, UserInfo
 from phonenumber_field.formfields import PhoneNumberField
 
 
@@ -15,3 +15,12 @@ class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['first_name', 'last_name', 'email', 'country', 'city', 'address', 'postal_code', 'phone']
+
+
+class UserInfoUpdateForm(forms.ModelForm):
+    phone = PhoneNumberField()
+
+    class Meta:
+        model = UserInfo
+        fields = ['first_name', 'last_name', 'email', 'country', 'city', 'address', 'postal_code', 'phone']
+

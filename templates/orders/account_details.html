@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Spartan-helmet |Account details</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-4 offset-4" style="text-align: center">
+            <h3>{{ customer.username }}</h3>
+            <br>
+            <p>{{ customer_info.first_name }} {{ customer_info.last_name }}</p>
+            <p>{{ customer_info.email }}</p>
+            <p>{{ customer_info.phone_number }}</p>
+            <p>{{ customer_info.country }}</p>
+            <p>{{ customer_info.city }}</p>
+            <p>{{ customer_info.address }}</p>
+            <p>{{ customer_info.postal_code }}</p>
+            <br>
+            <a type="submit" class="btn btn-success" style="background-color: black; margin-top: 1%"
+               href="{% url "edit_account_details" %}">Edit account details</a>
+        </div>
+    </div>
+
+{% endblock %}
