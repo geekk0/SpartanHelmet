@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Spartan-helmet |{{ customer.usrname }} orders</title>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/orders.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-4 offset-4" style="text-align: center">
+            <h3>{{ last_order.first_name}} orders:</h3>
+
+            {% for customer_order in customer_orders %}
+
+                <div class="col-md-6 offset-3 order_layout">
+                    <p>{{ customer_order.created }}</p>
+                    <p>Total price: {{ customer_order.get_total_cost }}$</p>
+
+                    <div class="order_detail_info">
+                        {% for item in customer_order.items.all %}
+                            <p>{{ item.product }} x {{ item.quantity }}</p>
+                        {% endfor %}
+                        <p>{{ customer_order.phone_number }}</p>
+                        <p>{{ customer_order.email }}</p>
+                        <p>{{ customer_order.address }}</p>
+                        <p>{{ customer_order.postal_code }}</p>
+                        <p>{{ customer_order.city }}</p>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+        </div>
+    
+        <div class="col-3">
+            <a style="font-size: 18pt; color: #e31f0b;"  href="{% url "account_details" %}">Account details</a>
+        </div>
+    </div>
+
+    <script>
+    </script>
+
+{% endblock %}

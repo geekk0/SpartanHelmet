@@ -1,0 +1,25 @@
+.order_layout {
+  margin-top: 7%;
+  border: solid black 1px;
+  line-height: 1;
+}
+
+.order_detail_info {
+  display:none;
+}
+
+.order_layout:hover {
+  border: solid #e31f0b 3px;
+}
+
+.order_layout:hover .order_detail_info{
+  display: block;
+}
+
+.order_layout:hover p{
+  font-size: 14pt;
+}
+
+.order_layout p{
+  margin-top: revert;
+}

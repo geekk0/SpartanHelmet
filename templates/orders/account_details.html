@@ -7,8 +7,8 @@
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-md-4 offset-4" style="text-align: center">
+    <div class="row m-0">
+        <div class="col-md-6 offset-3" style="text-align: center">
             <h3>{{ customer.username }}</h3>
             <br>
             <p>{{ customer_info.first_name }} {{ customer_info.last_name }}</p>
@@ -21,6 +21,10 @@
             <br>
             <a type="submit" class="btn btn-success" style="background-color: black; margin-top: 1%"
                href="{% url "edit_account_details" %}">Edit account details</a>
+        </div>
+
+        <div class="col-3">
+            <a style="font-size: 18pt; color: #e31f0b" href="{% url "customer_orders" %}">Orders</a>
         </div>
     </div>
 
