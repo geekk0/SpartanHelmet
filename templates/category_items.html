@@ -16,9 +16,13 @@
 {% block content %}
 
     <br>
-        <h3 style="text-align: center">{{ category_name }}</h3>
 
-        <div class="col-10 offset-1">
+        <div class="row">
+            <h3 class="col-md-4 offset-4" style="text-align: center">{{ category_name }}</h3>
+            <a href="{% url "remove_category" category_name %}" class="col-md-2 offset-1 btn btn-outline-danger" type="button">Удалить категорию</a>
+        </div>
+
+        <div class="col-10 offset-1 row" style="margin-top:4%">
             {% for item in category_items %}
 
                 <div class="items_layout col-4">
@@ -32,7 +36,5 @@
 
             {% endfor %}
         </div>
-
-
 
 {% endblock %}

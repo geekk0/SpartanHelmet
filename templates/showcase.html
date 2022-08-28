@@ -31,8 +31,13 @@
 
                 </div>
 
-
             {% endfor %}
+
+            {% if user.is_superuser %}
+                <div class="category-layout col-4">
+                    <a  href="{% url "add_category" %}" style="display: block; background: none; margin-top: 30%; font-size: 46pt; text-align:center">+</a>
+                </div>
+            {% endif %}
 
         </div>
 

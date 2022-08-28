@@ -3,6 +3,7 @@ from .models import Categories, Items, ItemImages
 from django.views.generic import View
 from .forms import LoginForm, RegistrationForm
 from cart.forms import CartAddProductForm
+from .forms import NewCategoryForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView
@@ -101,6 +102,27 @@ def showcase(request):
     context = {"available_categories": available_categories}
 
     return render(request, "showcase.html", context)
+
+
+def add_category(request):
+    if request.method == 'POST':
+        form = NewCategoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            print(form.cleaned_data["image"])
+            form.save()
+
+        return HttpResponseRedirect("Showcase")
+    else:
+        form = NewCategoryForm
+
+        return render(request, "add_category.html", {"form": form})
+
+
+def remove_category(request, category_name):
+    category_to_delete = Categories.objects.get(name=category_name)
+    category_to_delete.delete()
+
+    return HttpResponseRedirect("/Showcase")
 
 
 def category_items(request, category_name):

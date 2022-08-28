@@ -5,7 +5,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Categories(models.Model):
-    name = models.CharField(max_length=128, verbose_name="Название категории", default="Новая категория")
+    name = models.CharField(max_length=128, verbose_name="Название категории")
     image = models.ImageField(verbose_name="Обложка", upload_to="media/category_covers", default="media/no-image.png")
     hidden = models.BooleanField(verbose_name="Только для избранных", default=False)
 

@@ -1,6 +1,7 @@
 from django import forms
 from django.db import models
 from django.contrib.auth.models import User
+from .models import Categories
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -39,5 +40,15 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2',)
+
+
+class NewCategoryForm(forms.ModelForm):
+
+    hidden = forms.BooleanField(widget=forms.CheckboxInput, required=None)
+
+    class Meta:
+        model = Categories
+        fields = ('name', 'image', 'hidden')
+
 
 
