@@ -3,7 +3,7 @@ from .models import Categories, Items, ItemImages
 from django.views.generic import View
 from .forms import LoginForm, RegistrationForm
 from cart.forms import CartAddProductForm
-from .forms import NewCategoryForm
+from .forms import NewCategoryForm, NewItemForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView
@@ -108,12 +108,27 @@ def add_category(request):
     if request.method == 'POST':
         form = NewCategoryForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data["image"])
             form.save()
 
         return HttpResponseRedirect("Showcase")
     else:
         form = NewCategoryForm
+
+        return render(request, "add_category.html", {"form": form})
+
+
+def add_item(request, category_name):
+    if request.method == 'POST':
+        form = NewItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_item = form.save(commit=False)
+            new_item.category = Categories.objects.get(name=category_name)
+            new_item.save()
+
+        return HttpResponseRedirect("/" + category_name)
+
+    else:
+        form = NewItemForm
 
         return render(request, "add_category.html", {"form": form})
 
@@ -142,6 +157,14 @@ def category_items(request, category_name):
         context = {"category_items": category_items, "category_object": category_object, "category_name": category_name}
 
         return render(request, "category_items.html", context)
+
+
+def remove_item(request, item_name):
+    item_to_delete = Items.objects.get(name=item_name)
+    category = item_to_delete.category
+    item_to_delete.delete()
+
+    return HttpResponseRedirect("/" + category.name)
 
 
 def item_page(request, category_name, item_name):

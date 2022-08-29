@@ -14,7 +14,10 @@
 
 {% block content %}
 
-    <h3 style="text-align: center;margin-top: 2%">{{ item.name }}</h3>
+    <div class="row">
+            <h3 class="col-md-4 offset-4" style="text-align: center">{{ item.name }}</h3>
+            <a href="{% url "remove_item" item.name %}" class="col-md-2 offset-1 btn btn-outline-danger" type="button">Удалить товар</a>
+        </div>
 
     <div class="row m-0">
         <div class="item_images_div col-md-4 offset-1" style="margin-top: 2%">

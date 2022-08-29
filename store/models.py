@@ -18,7 +18,7 @@ class Categories(models.Model):
 
 
 class Items(models.Model):
-    name = models.CharField(max_length=128, verbose_name="Товар", default="Новый товар")
+    name = models.CharField(max_length=128, verbose_name="Товар")
     category = models.ForeignKey(Categories, on_delete=models.CASCADE, verbose_name="Относится к категории:")
     price = models.IntegerField(verbose_name="Цена", default=0)
     description = models.TextField(verbose_name="Описание товара", null=True, blank=True)

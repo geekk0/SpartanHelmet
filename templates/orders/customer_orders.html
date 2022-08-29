@@ -11,38 +11,90 @@
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-md-4 offset-4" style="text-align: center">
-            <h3>{{ last_order.first_name}} orders:</h3>
+    {% if user.is_superuser %}
 
-            {% for customer_order in customer_orders %}
+        <div class="row">
+            <div class="col-md-4 offset-4" style="text-align: center">
+                <h3>All customer's orders:</h3>
 
-                <div class="col-md-6 offset-3 order_layout">
-                    <p>{{ customer_order.created }}</p>
-                    <p>Total price: {{ customer_order.get_total_cost }}$</p>
+                {% for order in all_orders %}
 
-                    <div class="order_detail_info">
-                        {% for item in customer_order.items.all %}
-                            <p>{{ item.product }} x {{ item.quantity }}</p>
-                        {% endfor %}
-                        <p>{{ customer_order.phone_number }}</p>
-                        <p>{{ customer_order.email }}</p>
-                        <p>{{ customer_order.address }}</p>
-                        <p>{{ customer_order.postal_code }}</p>
-                        <p>{{ customer_order.city }}</p>
+                    <div class="col-md-6 offset-3 order_layout">
+                        <p>{{ order.created }}</p>
+                        <p>Пользователь: {{ order.user.username }}</p>
+                        <form name="order_status" action="{% url "update_order_status" order.id %}" method="get">
+                            <input style="display: none" name="order_id" value={{ order.id }}>
+                            <label for="status_input">Статус: </label>
+                            <select name="status_input" oninput="send_order_status()">
+                                <option value="Processing">В обработке</option>
+                                <option style="color:green" value="Shipping">Доставка</option>
+                            </select>
+
+                        </form>
+                        <p>Общая цена: {{ order.get_total_cost }}$</p>
+
+                        <div class="order_detail_info">
+                            {% for item in order.items.all %}
+                                <p>{{ item.product }} x {{ item.quantity }}</p>
+                            {% endfor %}
+                            <p>{{ order.phone_number }}</p>
+                            <p>{{ order.email }}</p>
+                            <p>{{ order.address }}</p>
+                            <p>{{ order.postal_code }}</p>
+                            <p>{{ order.city }}</p>
+                        </div>
+
                     </div>
 
-                </div>
+                {% endfor %}
+            </div>
 
-            {% endfor %}
+            <div class="col-3">
+                <a style="font-size: 18pt; color: #e31f0b;"  href="{% url "account_details" %}">Account details</a>
+            </div>
         </div>
-    
-        <div class="col-3">
-            <a style="font-size: 18pt; color: #e31f0b;"  href="{% url "account_details" %}">Account details</a>
+
+    {% else %}
+
+        <div class="row">
+            <div class="col-md-4 offset-4" style="text-align: center">
+                <h3>{{ last_order.first_name}} orders:</h3>
+
+                {% for customer_order in customer_orders %}
+
+                    <div class="col-md-6 offset-3 order_layout">
+                        <p>{{ customer_order.created }}</p>
+                        <p>Status: {{ customer_order.status }}</p>
+                        <p>Total price: {{ customer_order.get_total_cost }}$</p>
+
+                        <div class="order_detail_info">
+                            {% for item in customer_order.items.all %}
+                                <p>{{ item.product }} x {{ item.quantity }}</p>
+                            {% endfor %}
+                            <p>{{ customer_order.phone_number }}</p>
+                            <p>{{ customer_order.email }}</p>
+                            <p>{{ customer_order.address }}</p>
+                            <p>{{ customer_order.postal_code }}</p>
+                            <p>{{ customer_order.city }}</p>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+            </div>
+
+            <div class="col-3">
+                <a style="font-size: 18pt; color: #e31f0b;"  href="{% url "account_details" %}">Account details</a>
+            </div>
         </div>
-    </div>
+
+    {% endif %}
 
     <script>
+        function send_order_status() {
+                document.forms['order_status'].submit()
+            }
     </script>
+
 
 {% endblock %}

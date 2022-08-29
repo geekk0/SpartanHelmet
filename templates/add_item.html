@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block title %}
+    <title>Spartan-helmet | Add category</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class='row m-0' style="margin-top:1%">
+
+        <div class="col-md-6 offset-3" style="text-align:center">
+
+            <h2 style="text-align: center">Данные новой категории:</h2>
+
+            <form method="POST" enctype='multipart/form-data'>
+
+                {{ user_form.as_p }}
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" class="btn btn-success" style="background-color: black; margin-top: 1%" value="Сохранить">
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

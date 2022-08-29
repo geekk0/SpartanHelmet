@@ -1,7 +1,7 @@
 from django import forms
 from django.db import models
 from django.contrib.auth.models import User
-from .models import Categories
+from .models import Categories, Items
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -49,6 +49,13 @@ class NewCategoryForm(forms.ModelForm):
     class Meta:
         model = Categories
         fields = ('name', 'image', 'hidden')
+
+
+class NewItemForm(forms.ModelForm):
+
+    class Meta:
+        model = Items
+        fields = ('name', 'price', 'description', 'main_image')
 
 
 

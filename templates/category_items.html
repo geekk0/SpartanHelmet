@@ -22,19 +22,27 @@
             <a href="{% url "remove_category" category_name %}" class="col-md-2 offset-1 btn btn-outline-danger" type="button">Удалить категорию</a>
         </div>
 
-        <div class="col-10 offset-1 row" style="margin-top:4%">
-            {% for item in category_items %}
+            <div class="col-10 offset-1 row" style="margin-top:4%">
+                {% for item in category_items %}
 
-                <div class="items_layout col-4">
-                    <a href="{% url "Item page" category_name item.name %}">
-                        <figure>
-                            <img class="item_image" src="{{ item.main_image.url }}" alt="{{ item.name }}">
-                            <figcaption>{{ item.name }}</figcaption>
-                        </figure>
-                    </a>
-                </div>
+                    <div class="items_layout col-4">
+                        <a href="{% url "Item page" category_name item.name %}">
+                            <figure>
+                                <img class="item_image" src="{{ item.main_image.url }}" alt="{{ item.name }}">
+                                <figcaption>{{ item.name }}</figcaption>
+                            </figure>
+                        </a>
+                    </div>
 
-            {% endfor %}
-        </div>
+                {% endfor %}
+
+
+                {% if user.is_superuser %}
+                    <div class="category-layout col-4">
+                        <a  href="{% url "add_item" category_name %}" style="display: block; background: none; margin-top: 30%; font-size: 46pt; text-align:center">+</a>
+                    </div>
+                {% endif %}
+
+            </div>
 
 {% endblock %}

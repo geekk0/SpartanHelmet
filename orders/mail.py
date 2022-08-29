@@ -82,3 +82,19 @@ def format_order_items(order):
         order_items_block += "Товар: " + order_item.product.name + " x" + str(order_item.quantity) + "\n"
     return order_items_block
 
+
+def send_customer_order_status(order):
+
+    msg = MIMEMultipart()
+    msg['Subject'] = 'Order status changed' + order.first_name + " in Spartan-helmet store."
+    msg['From'] = "Spartan-helmet <gekk0test@yandex.ru>"
+    msg['To'] = order.email
+    send_to = [order.email]
+    text = MIMEText("Your order №" + str(order.id) + " is now shipping. ")
+    msg.attach(text)
+
+    server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
+    server.starttls()
+    server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+    server.sendmail(msg['From'], send_to, msg.as_string())
+    server.quit()
