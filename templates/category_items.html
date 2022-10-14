@@ -17,7 +17,7 @@
 
     <br>
 
-        <div class="row">
+        <div class="row m-0">
             <h3 class="col-md-4 offset-4" style="text-align: center">{{ category_name }}</h3>
             {% if user.is_superuser %}
                 <a href="{% url "remove_category" category_name %}" class="col-md-2 offset-1 btn btn-outline-danger" type="button">Удалить категорию</a>

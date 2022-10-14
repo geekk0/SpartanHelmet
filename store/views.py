@@ -185,5 +185,4 @@ def item_page(request, category_name, item_name):
 
         context = {"item": item, "images": images, "cart_product_form": cart_product_form}
 
-
         return render(request, "item_page.html", context)
