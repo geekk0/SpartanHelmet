@@ -33,7 +33,7 @@
             <div class="row" style="margin-top: 2%">
                 {% for image in images %}
                     <div class="col-md-4 image_layout">
-                        <img class="item_images" src="{{ image.image.url }}/" alt="{{ image.caption }}">
+                        <img class="item_images" src="{{ image.image.url }}" alt="{{ image.caption }}">
                         {% if user.is_superuser %}
                             <div class="remove_image" style="width:15%">
                                 <a href="{% url "remove_item_image" image.id %}"><img src="{% static 'images/remove.png' %}" style="width:100%"></a>
