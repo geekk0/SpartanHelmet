@@ -17,12 +17,19 @@
 
     <br>
 
-        <div class="row m-0">
-            <h3 class="col-md-4 offset-4" style="text-align: center">{{ category_name }}</h3>
-            {% if user.is_superuser %}
+        {% if user.is_superuser %}
+            <div class="row m-0">
+                <a href="{% url "edit_category" category_object.id %}" class="col-md-2 offset-1 btn btn-outline-dark" type="button">Изменить категорию</a>
+                <h3 class="col-md-4 offset-1" style="text-align: center">{{ category_name }}</h3>
                 <a href="{% url "remove_category" category_name %}" class="col-md-2 offset-1 btn btn-outline-danger" type="button">Удалить категорию</a>
-            {% endif %}
-        </div>
+            </div>
+
+        {% else %}
+            <div class="m-0">
+                <h3 class="col-md-4 offset-4" style="text-align: center">{{ category_name }}</h3>
+            </div>
+
+        {% endif %}
 
             <div class="col-10 offset-1 row" style="margin-top:4%">
                 {% for item in category_items %}

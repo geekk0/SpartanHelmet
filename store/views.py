@@ -3,7 +3,7 @@ from .models import Categories, Items, ItemImages
 from django.views.generic import View
 from .forms import LoginForm, RegistrationForm
 from cart.forms import CartAddProductForm
-from .forms import NewCategoryForm, NewItemForm
+from .forms import NewCategoryForm, NewItemForm, AddItemImagesForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView
@@ -186,3 +186,72 @@ def item_page(request, category_name, item_name):
         context = {"item": item, "images": images, "cart_product_form": cart_product_form}
 
         return render(request, "item_page.html", context)
+
+
+def edit_item(request, item_id):
+
+    item_object = Items.objects.get(id=item_id)
+
+    if request.method == 'POST':
+        form = NewItemForm(request.POST, request.FILES, instance=item_object)
+        if form.is_valid():
+            form.save()
+
+        return HttpResponseRedirect("/" + item_object.category.name + "/" + item_object.name)
+
+    else:
+        form = NewItemForm(instance=item_object)
+
+        return render(request, "add_item.html", {"form": form})
+
+
+def edit_category(request, category_id):
+
+    category_object = Categories.objects.get(id=category_id)
+
+    if request.method == 'POST':
+        form = NewCategoryForm(request.POST, request.FILES, instance=category_object)
+        if form.is_valid():
+            form.save()
+
+        return HttpResponseRedirect("/" + category_object.name)
+    else:
+        form = NewCategoryForm(instance=category_object)
+
+        return render(request, "add_category.html", {"form": form})
+
+
+def add_item_image(request, item_id):
+
+    item_object = Items.objects.get(id=item_id)
+
+    if request.method == 'POST':
+
+        image_desc = request.POST.get("image_desc")
+
+        uploaded_file = request.FILES['image_file']
+
+        item_image = ItemImages.objects.create(of_item=item_object, caption=image_desc, image=uploaded_file)
+
+        item_image.save()
+
+    return HttpResponseRedirect("/" + item_object.category.name + "/" + item_object.name)
+
+
+def remove_item_image(request, item_image_id):
+
+    item_image_object = ItemImages.objects.get(id=item_image_id)
+
+    item_object_name = item_image_object.of_item.name
+
+    item_category_name = item_image_object.of_item.category.name
+
+    item_image_object.delete()
+
+    return HttpResponseRedirect("/" + item_category_name + "/" + item_object_name)
+
+
+
+
+
+

@@ -1,3 +1,23 @@
+a:hover {
+  color:red;
+}
+
+.image_layout{
+  position: relative;
+}
+
+.item_images {
+  width:100%;
+}
+
+.remove_image {
+  position: absolute;
+  top: 0;
+  right: 5%;
+  font-size: 16pt;
+  width: 4%;
+}
+
 #item_cover {
   border-radius: 5px;
   cursor: pointer;
