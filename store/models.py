@@ -33,7 +33,7 @@ class Items(models.Model):
 
 
 class ItemImages(models.Model):
-    image = models.ImageField(verbose_name="Изображение", upload_to="", default="no-image.png")
+    image = models.ImageField(verbose_name="Изображение", upload_to="item_images", default="no-image.png")
     of_item = models.ForeignKey(Items, on_delete=models.CASCADE, verbose_name="Относится к товару:")
     caption = models.CharField(max_length=256, verbose_name="Подпись", null=True, blank=True)
 
