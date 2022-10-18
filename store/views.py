@@ -169,7 +169,11 @@ def remove_item(request, item_name):
 
 def item_page(request, category_name, item_name):
 
-    if not Categories.objects.get(name=category_name) in get_available_categories(request):
+    if not Categories.objects.filter(name=category_name).exists():
+
+        raise Http404
+
+    elif not Categories.objects.get(name=category_name) in get_available_categories(request):
 
         raise Http404
 
