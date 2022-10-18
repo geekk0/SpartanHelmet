@@ -144,19 +144,23 @@ def category_items(request, category_name):
 
     available_categories = get_available_categories(request)
 
-    category_object = Categories.objects.get(name=category_name)
-
-    if category_object not in available_categories:
-
+    if not Categories.objects.filter(name=category_name).exists():
         return render(request, "status_404.html")
 
     else:
+        category_object = Categories.objects.get(name=category_name)
 
-        category_items = Items.objects.filter(category__name=category_name)
+        if category_object not in available_categories:
 
-        context = {"category_items": category_items, "category_object": category_object, "category_name": category_name}
+            return render(request, "status_404.html")
 
-        return render(request, "category_items.html", context)
+        else:
+
+            category_items = Items.objects.filter(category__name=category_name)
+
+            context = {"category_items": category_items, "category_object": category_object, "category_name": category_name}
+
+            return render(request, "category_items.html", context)
 
 
 def remove_item(request, item_name):
@@ -170,14 +174,9 @@ def remove_item(request, item_name):
 def item_page(request, category_name, item_name):
 
     if not Categories.objects.filter(name=category_name).exists():
-
         return render(request, "status_404.html")
-
-    elif not Categories.objects.get(name=category_name) in get_available_categories(request):
-
-        return render(request, "status_404.html")
-
-    elif not Items.objects.filter(name=item_name).exists():
+    elif not Categories.objects.get(name=category_name) in get_available_categories(request) or \
+            not Items.objects.filter(name=item_name).exists():
 
         return render(request, "status_404.html")
 
