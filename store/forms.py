@@ -44,11 +44,11 @@ class RegistrationForm(UserCreationForm):
 
 class NewCategoryForm(forms.ModelForm):
 
-    hidden = forms.BooleanField(widget=forms.CheckboxInput, required=None)
+    hidden = forms.BooleanField(widget=forms.CheckboxInput, required=None, label="Скрытая")
 
     class Meta:
         model = Categories
-        fields = ('name', 'image', 'hidden')
+        fields = '__all__'
 
 
 class NewItemForm(forms.ModelForm):

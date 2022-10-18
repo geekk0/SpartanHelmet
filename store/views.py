@@ -114,7 +114,7 @@ def add_category(request):
     else:
         form = NewCategoryForm
 
-        return render(request, "add_category.html", {"form": form})
+        return render(request, "add_category.html", {"form": form, "type": "категории"})
 
 
 def add_item(request, category_name):
@@ -130,7 +130,7 @@ def add_item(request, category_name):
     else:
         form = NewItemForm
 
-        return render(request, "add_category.html", {"form": form})
+        return render(request, "add_category.html", {"form": form, "type": "товара"})
 
 
 def remove_category(request, category_name):
