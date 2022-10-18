@@ -177,6 +177,10 @@ def item_page(request, category_name, item_name):
 
         return render(request, "status_404.html")
 
+    elif not Items.objects.filter(name=item_name).exists():
+
+        return render(request, "status_404.html")
+
     else:
 
         item = Items.objects.get(name=item_name)
