@@ -148,7 +148,7 @@ def category_items(request, category_name):
 
     if category_object not in available_categories:
 
-        raise Http404
+        return render(request, "status_404.html")
 
     else:
 
@@ -171,11 +171,11 @@ def item_page(request, category_name, item_name):
 
     if not Categories.objects.filter(name=category_name).exists():
 
-        raise Http404
+        return render(request, "status_404.html")
 
     elif not Categories.objects.get(name=category_name) in get_available_categories(request):
 
-        raise Http404
+        return render(request, "status_404.html")
 
     else:
 
