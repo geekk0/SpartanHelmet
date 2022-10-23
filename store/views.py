@@ -8,7 +8,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
 
 
 def signup_view(request):
@@ -28,7 +27,8 @@ def signup_view(request):
 
 class LoginView(View):
 
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
 
         form = LoginForm(request.POST or None)
 
@@ -36,7 +36,8 @@ class LoginView(View):
 
         return render(request, 'login.html', context)
 
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
 
         form = LoginForm(request.POST or None)
 
@@ -142,25 +143,18 @@ def remove_category(request, category_name):
 
 def category_items(request, category_name):
 
-    available_categories = get_available_categories(request)
+    categories = Categories.objects.filter(name=category_name) & get_available_categories(request)
 
-    if not Categories.objects.filter(name=category_name).exists():
-        return render(request, "status_404.html")
-
-    else:
+    if categories.exists():
         category_object = Categories.objects.get(name=category_name)
+        category_items = Items.objects.filter(category__name=category_name)
 
-        if category_object not in available_categories:
+        context = {"category_items": category_items, "category_object": category_object,
+                   "category_name": category_name}
 
-            return render(request, "status_404.html")
-
-        else:
-
-            category_items = Items.objects.filter(category__name=category_name)
-
-            context = {"category_items": category_items, "category_object": category_object, "category_name": category_name}
-
-            return render(request, "category_items.html", context)
+        return render(request, "category_items.html", context)
+    else:
+        return render(request, "status_404.html")
 
 
 def remove_item(request, item_name):
@@ -173,26 +167,25 @@ def remove_item(request, item_name):
 
 def item_page(request, category_name, item_name):
 
-    if not Categories.objects.filter(name=category_name).exists():
-        return render(request, "status_404.html")
-    elif not Categories.objects.get(name=category_name) in get_available_categories(request) or \
-            not Items.objects.filter(name=item_name).exists():
-
-        return render(request, "status_404.html")
-
-    else:
-
-        item = Items.objects.get(name=item_name)
+    if (Categories.objects.filter(name=category_name) & get_available_categories(request)).exists():
+        try:
+            item = Items.objects.get(name=item_name)
+        except Items.DoesNotExist:
+            return render(request, "status_404.html")
 
         images = ItemImages.objects.filter(of_item_id=item.id)
 
-        # request.session["foo"] = "bar"
-
         cart_product_form = CartAddProductForm()
+
+        print(request.session.items())
 
         context = {"item": item, "images": images, "cart_product_form": cart_product_form}
 
         return render(request, "item_page.html", context)
+
+    else:
+
+        return render(request, "status_404.html")
 
 
 def edit_item(request, item_id):
@@ -256,9 +249,3 @@ def remove_item_image(request, item_image_id):
     item_image_object.delete()
 
     return HttpResponseRedirect("/" + item_category_name + "/" + item_object_name)
-
-
-
-
-
-

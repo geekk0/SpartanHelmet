@@ -55,12 +55,10 @@ class NewItemForm(forms.ModelForm):
 
     class Meta:
         model = Items
-        fields = ('name', 'price', 'description', 'main_image')
+        fields = ('name', 'weight', 'price', 'description', 'main_image')
 
 
 class AddItemImagesForm(forms.ModelForm):
     class Meta:
         model = ItemImages
         fields = ("image", "caption")
-
-

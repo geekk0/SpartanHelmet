@@ -29,11 +29,15 @@ class Order(models.Model):
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
+    def get_total_weight(self):
+        return sum(item.get_weight() for item in self.items.all())
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Items, related_name='order_items', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    weight = models.PositiveIntegerField(default=0)
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
@@ -41,6 +45,9 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+    def get_weight(self):
+        return self.weight * self.quantity
 
 
 class UserInfo(models.Model):

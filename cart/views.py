@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from store.models import Categories, Items
@@ -28,7 +27,7 @@ def cart_remove(request, product_id):
 
 def cart_detail(request):
     cart = Cart(request)
-    session_info = request.session.items()
+    # session_info = request.session.items()
     return render(request, 'cart/detail.html', {'cart': cart})
 
 

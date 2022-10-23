@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
 from store.models import Categories, Items
+from .funcs import get_exchange_rate
 
 
 class Cart(object):
@@ -23,7 +24,7 @@ class Cart(object):
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
-                                     'price': str(product.price)}
+                                     'price': str(product.price), 'weight': str(product.weight)}
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
@@ -65,11 +66,25 @@ class Cart(object):
             self.cart[product_id]['quantity'] -= 1
         self.save()
 
+    def get_cart_weight(self):
+        """
+        Подсчет веса товаров в корзине.
+        """
+        return sum(Decimal(item['weight']) * item['quantity'] for item in
+            self.cart.values())
+
+    def get_shipping_value(self):
+
+        return round((sum(Decimal(item['weight']) * item['quantity'] * 3 for item in
+                   self.cart.values()) + 750) / get_exchange_rate(), 2)
 
     def __iter__(self):
         """
         Перебор элементов в корзине и получение продуктов из базы данных.
         """
+        print(self.cart.values())
+        print(type(self.cart))
+        print(self.cart.items())
         product_ids = self.cart.keys()
         # получение объектов product и добавление их в корзину
         products = Items.objects.filter(id__in=product_ids)
@@ -78,7 +93,9 @@ class Cart(object):
 
         for item in self.cart.values():
             item['price'] = Decimal(item['price'])
+            item['weight'] = Decimal(item['weight'])
             item['total_price'] = item['price'] * item['quantity']
+            item['total_weight'] = item['weight'] * item['quantity']
             yield item
 
     def __len__(self):
@@ -92,7 +109,7 @@ class Cart(object):
         Подсчет стоимости товаров в корзине.
         """
         return sum(Decimal(item['price']) * item['quantity'] for item in
-                   self.cart.values())
+                   self.cart.values()) + self.get_shipping_value()
 
     def clear(self):
         # удаление корзины из сессии

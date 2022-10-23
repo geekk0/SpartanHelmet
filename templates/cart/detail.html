@@ -20,11 +20,12 @@
                 <thead>
                 <tr>
                     <th class="col-md-3"></th>
-                    <th class="col-md-2">Item</th>
-                    <th class="col-md-2 offset-1">Quantity</th>
-                    <th class="col-md-2 offset-1">Remove</th>
-                    <th class="col-md-2 offset-1">Unit price</th>
-                    <th class="col-md-2 offset-1">Price</th>
+                    <th class="col-md-1">Item</th>
+                    <th class="col-md-1">Quantity</th>
+                    <th class="col-md-1">Remove</th>
+                    <th class="col-md-1">Unit price</th>
+                    <th class="col-md-1">Weight</th>
+                    <th class="col-md-1">Price</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,14 +43,15 @@
                                 </a>
 
                             </td>
-                            <td class="col-md-2"><a target="_blank"
+                            <td class="col-md-1"><a target="_blank"
                                                     href="{% url "Item page" product.category.name product.name %}">
                                 {{ product.name }}</a></td>
-                            <td class="col-md-2 offset-1"><a style="font-size: 16pt" href="{% url "minus_one" product.id item.quantity %}">-  </a>{{ item.quantity }}
+                            <td class="col-md-1"><a style="font-size: 16pt" href="{% url "minus_one" product.id item.quantity %}">-  </a>{{ item.quantity }}
                                 <a style="font-size: 16pt" href="{% url "plus_one" product.id item.quantity %}">  +</a></td>
                             <td><a href="{% url "cart_remove" product.id%}"><img style="width:15%" src=" {% static "images/remove.png" %}" alt=""></a></td>
-                            <td class="col-md-2 offset-1 num">${{ item.price }}</td>
-                            <td class="col-md-2 offset-1 num">${{ item.total_price }}</td>
+                            <td class="col-md-1 num">${{ item.price }}</td>
+                            <td class="col-md-1 num">{{ item.total_weight }}g</td>
+                            <td class="col-md-1 num">${{ item.total_price }}</td>
                         </tr>
                     {% endwith %}
                 {% endfor %}
@@ -58,9 +60,19 @@
 
                     </td>
                 </tr>
-                <tr class="total" style="margin-top:5%">
-                    <td>Total</td>
-                    <td colspan="4"></td>
+                <tr class="total" style="">
+                    <td>Total weight</td>
+                    <td colspan="5"></td>
+                    <td class="num">{{ cart.get_cart_weight }}g</td>
+                </tr>
+                <tr class="total" style="">
+                    <td>Shipping price</td>
+                    <td colspan="5"></td>
+                    <td class="num">${{ cart.get_shipping_value }}</td>
+                </tr>
+                <tr class="total" style="font-size:20pt;line-height: 2">
+                    <td>Total price</td>
+                    <td colspan="5"></td>
                     <td class="num">${{ cart.get_total_price }}</td>
                 </tr>
                 <p style="color:red">{{ session_info }}</p>

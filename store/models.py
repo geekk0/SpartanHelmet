@@ -21,6 +21,7 @@ class Items(models.Model):
     name = models.CharField(max_length=128, verbose_name="Название товара")
     category = models.ForeignKey(Categories, on_delete=models.CASCADE, verbose_name="Относится к категории:")
     price = models.IntegerField(verbose_name="Цена", default=0)
+    weight = models.IntegerField(verbose_name="Вес", null=True, blank=True)
     description = models.TextField(verbose_name="Описание товара", null=True, blank=True)
     main_image = models.ImageField(verbose_name="Основное изображение", upload_to="item_covers", default="no-image.png")
 
