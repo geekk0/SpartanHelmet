@@ -82,9 +82,6 @@ class Cart(object):
         """
         Перебор элементов в корзине и получение продуктов из базы данных.
         """
-        print(self.cart.values())
-        print(type(self.cart))
-        print(self.cart.items())
         product_ids = self.cart.keys()
         # получение объектов product и добавление их в корзину
         products = Items.objects.filter(id__in=product_ids)
