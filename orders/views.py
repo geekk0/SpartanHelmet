@@ -16,13 +16,17 @@ def order_create(request):
             order.phone_number = form.cleaned_data['phone']
             if request.user.is_authenticated:
                 order.user = request.user
-            order.save()
+
             for item in cart:
                 OrderItem.objects.create(order=order,
                                          product=item['product'],
-                                         price=item['price'],
+                                         price=item['currency_price'],
                                          quantity=item['quantity'],
                                          weight=item['weight'])
+            order.get_total_cost()
+            order.get_total_weight()
+            order.shipping_price = cart.get_shipping_value()
+            order.save()
             # очистка корзины
 
             cart.clear()

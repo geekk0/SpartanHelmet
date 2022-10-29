@@ -149,6 +149,9 @@ def category_items(request, category_name):
         category_object = Categories.objects.get(name=category_name)
         category_items = Items.objects.filter(category__name=category_name)
 
+        for item in category_items:
+            item.get_currency_price()
+
         context = {"category_items": category_items, "category_object": category_object,
                    "category_name": category_name}
 
@@ -170,6 +173,7 @@ def item_page(request, category_name, item_name):
     if (Categories.objects.filter(name=category_name) & get_available_categories(request)).exists():
         try:
             item = Items.objects.get(name=item_name)
+
         except Items.DoesNotExist:
             return render(request, "status_404.html")
 

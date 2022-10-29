@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
 from store.models import Categories, Items
-from .funcs import get_exchange_rate
+from currencies.models import Currencies
 
 
 class Cart(object):
@@ -24,7 +24,7 @@ class Cart(object):
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
-                                     'price': str(product.price), 'weight': str(product.weight)}
+                                     'currency_price': str(product.currency_price), 'weight': str(product.weight)}
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
@@ -75,8 +75,10 @@ class Cart(object):
 
     def get_shipping_value(self):
 
+        exchange_rate = Currencies.objects.get(id=1).exchange_rate
+
         return round((sum(Decimal(item['weight']) * item['quantity'] * 3 for item in
-                   self.cart.values()) + 750) / get_exchange_rate(), 2)
+                   self.cart.values()) + 750) / exchange_rate, 2)
 
     def __iter__(self):
         """
@@ -87,11 +89,13 @@ class Cart(object):
         products = Items.objects.filter(id__in=product_ids)
         for product in products:
             self.cart[str(product.id)]['product'] = product
+            product.get_currency_price()
+            product.save()
 
         for item in self.cart.values():
-            item['price'] = Decimal(item['price'])
+            item['currency_price'] = Decimal(item['currency_price'])
             item['weight'] = Decimal(item['weight'])
-            item['total_price'] = item['price'] * item['quantity']
+            item['total_currency_price'] = item['currency_price'] * item['quantity']
             item['total_weight'] = item['weight'] * item['quantity']
             yield item
 
@@ -105,7 +109,10 @@ class Cart(object):
         """
         Подсчет стоимости товаров в корзине.
         """
-        return sum(Decimal(item['price']) * item['quantity'] for item in
+        print(sum(Decimal(item['currency_price']) * item['quantity'] for item in
+                   self.cart.values()) + self.get_shipping_value())
+
+        return sum(Decimal(item['currency_price']) * item['quantity'] for item in
                    self.cart.values()) + self.get_shipping_value()
 
     def clear(self):

@@ -13,7 +13,7 @@
 
     {% if user.is_superuser %}
 
-        <div class="row">
+        <div class="row m-0">
             <div class="col-md-4 offset-4" style="text-align: center">
                 <h3>All customer's orders:</h3>
 
@@ -31,7 +31,9 @@
                             </select>
 
                         </form>
-                        <p>Общая цена: {{ order.get_total_cost }}$</p>
+                        <p>Weight: {{ order.total_weight }}g</p>
+                        <p>Shipping price: {{ order.shipping_price }}₮</p>
+                        <p>Total price: {{ order.total_price }}₮</p>
 
                         <div class="order_detail_info">
                             {% for item in order.items.all %}
@@ -56,7 +58,7 @@
 
     {% else %}
 
-        <div class="row">
+        <div class="row m-0">
             <div class="col-md-4 offset-4" style="text-align: center">
                 <h3>{{ last_order.first_name}} orders:</h3>
 
@@ -65,8 +67,9 @@
                     <div class="col-md-6 offset-3 order_layout">
                         <p>{{ customer_order.created }}</p>
                         <p>Status: {{ customer_order.status }}</p>
-                        <p>Weight: {{ customer_order.get_total_weight }}g</p>
-                        <p>Total price: {{ customer_order.get_total_cost }}$</p>
+                        <p>Weight: {{ customer_order.total_weight }}g</p>
+                        <p>Shipping price: {{ customer_order.shipping_price }}₮</p>
+                        <p>Total price: {{ customer_order.total_price }}₮</p>
 
                         <div class="order_detail_info">
                             {% for item in customer_order.items.all %}

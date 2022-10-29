@@ -17,6 +17,9 @@ class Order(models.Model):
     address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=20)
     phone_number = PhoneNumberField(unique=False)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_weight = models.IntegerField(default=0)
+    shipping_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     class Meta:
         ordering = ('-created',)
@@ -27,10 +30,11 @@ class Order(models.Model):
         return 'Order {}'.format(self.id)
 
     def get_total_cost(self):
-        return sum(item.get_cost() for item in self.items.all())
+
+        self.total_price = sum(item.get_cost() for item in self.items.all())
 
     def get_total_weight(self):
-        return sum(item.get_weight() for item in self.items.all())
+        self.total_weight = sum(item.get_weight() for item in self.items.all())
 
 
 class OrderItem(models.Model):

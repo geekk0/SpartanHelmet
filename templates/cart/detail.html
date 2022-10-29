@@ -49,9 +49,9 @@
                             <td class="col-md-1"><a style="font-size: 16pt" href="{% url "minus_one" product.id item.quantity %}">-  </a>{{ item.quantity }}
                                 <a style="font-size: 16pt" href="{% url "plus_one" product.id item.quantity %}">  +</a></td>
                             <td><a href="{% url "cart_remove" product.id%}"><img style="width:15%" src=" {% static "images/remove.png" %}" alt=""></a></td>
-                            <td class="col-md-1 num">${{ item.price }}</td>
+                            <td class="col-md-1 num">₮{{ item.currency_price }}</td>
                             <td class="col-md-1 num">{{ item.total_weight }}g</td>
-                            <td class="col-md-1 num">${{ item.total_price }}</td>
+                            <td class="col-md-1 num">₮{{ item.total_currency_price }}</td>
                         </tr>
                     {% endwith %}
                 {% endfor %}
@@ -68,12 +68,12 @@
                 <tr class="total" style="">
                     <td>Shipping price</td>
                     <td colspan="5"></td>
-                    <td class="num">${{ cart.get_shipping_value }}</td>
+                    <td class="num">₮{{ cart.get_shipping_value }}</td>
                 </tr>
                 <tr class="total" style="font-size:20pt;line-height: 2">
                     <td>Total price</td>
                     <td colspan="5"></td>
-                    <td class="num">${{ cart.get_total_price }}</td>
+                    <td class="num">₮{{ cart.get_total_price }}</td>
                 </tr>
                 <p style="color:red">{{ session_info }}</p>
                 </tbody>
