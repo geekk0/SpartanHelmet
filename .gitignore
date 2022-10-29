@@ -1,2 +1,6 @@
 /Spartan_helmet/settings.py
 /sh_env/
+/cart/migrations/
+/currencies/migrations/
+/orders/migrations/
+/store/migrations/
