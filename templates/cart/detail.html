@@ -49,7 +49,7 @@
                             <td class="col-md-1"><a style="font-size: 16pt" href="{% url "minus_one" product.id item.quantity %}">-  </a>{{ item.quantity }}
                                 <a style="font-size: 16pt" href="{% url "plus_one" product.id item.quantity %}">  +</a></td>
                             <td><a href="{% url "cart_remove" product.id%}"><img style="width:15%" src=" {% static "images/remove.png" %}" alt=""></a></td>
-                            <td class="col-md-1 num">₮{{ item.currency_price }}</td>
+                            <td class="col-md-1 num">₮{{ product.currency_price }}</td>
                             <td class="col-md-1 num">{{ item.total_weight }}g</td>
                             <td class="col-md-1 num">₮{{ item.total_currency_price }}</td>
                         </tr>

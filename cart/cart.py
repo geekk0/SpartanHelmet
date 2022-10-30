@@ -109,9 +109,6 @@ class Cart(object):
         """
         Подсчет стоимости товаров в корзине.
         """
-        print(sum(Decimal(item['currency_price']) * item['quantity'] for item in
-                   self.cart.values()) + self.get_shipping_value())
-
         return sum(Decimal(item['currency_price']) * item['quantity'] for item in
                    self.cart.values()) + self.get_shipping_value()
 

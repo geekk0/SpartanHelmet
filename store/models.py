@@ -32,7 +32,7 @@ class Items(models.Model):
         return self.name
 
     def get_currency_price(self, currency_id=1):
-        self.currency_price = Decimal(self.price)/Currencies.objects.get(id=currency_id).exchange_rate
+        self.currency_price = round(Decimal(self.price)/Currencies.objects.get(id=currency_id).exchange_rate, 2)
 
     class Meta:
         verbose_name = "Товар"
