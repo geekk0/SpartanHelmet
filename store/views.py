@@ -124,6 +124,7 @@ def add_item(request, category_name):
         if form.is_valid():
             new_item = form.save(commit=False)
             new_item.category = Categories.objects.get(name=category_name)
+            new_item.get_currency_price()
             new_item.save()
 
         return HttpResponseRedirect("/" + category_name)
